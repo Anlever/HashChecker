@@ -1,1 +1,3 @@
 # HashChecker
+IntegrityHashChecker is a versatile software application that calculates the hash checksum of a file and provides a reliable means to verify its integrity. 
+By utilizing robust cryptographic hash algorithms, such as MD5, SHA-1, or SHA-256, it generates a unique hash value for the file. The program allows users to compare the calculated hash with a reference hash to determine if any unauthorized modifications or corruptions have occurred. With its user-friendly interface and secure hashing algorithms, IntegrityHashChecker ensures data integrity and serves as a valuable tool for file verification in various domains, including data management, security, and software distribution
