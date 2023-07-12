@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HashChecker.Interface;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,9 +16,12 @@ namespace HashChecker
 {
     public partial class Form1 : Form
     {
+        private ICalculating calculating;
+
         public Form1()
         {
             InitializeComponent();
+            calculating = new Calculating.Calculating();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -37,20 +41,25 @@ namespace HashChecker
 
         private void button2_Click(object sender, EventArgs e)
         {
-            string FilePath = textBox1.Text;
-            string HashSum = ComputeMD5Checksum(textBox1.Text);
-            richTextBox1.Text = HashSum;
-        }
-        private string ComputeMD5Checksum(string path)
-        {
-            using (FileStream fs = System.IO.File.OpenRead(path))
-            using (MD5 md5 = new MD5CryptoServiceProvider())
+            string filePath = textBox1.Text;
+            if (calculating.FileExists(filePath))
             {
-                byte[] checkSum = md5.ComputeHash(fs);
-                string result = BitConverter.ToString(checkSum).Replace("-", String.Empty);
-                return result;
+                try
+                {
+                    string hashSum = calculating.ComputeMD5Checksum(filePath);
+                    richTextBox1.Text = hashSum;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error calculating hash: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("File does not exist.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
