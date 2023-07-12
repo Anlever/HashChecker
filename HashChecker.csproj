@@ -47,7 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\Calculating.cs" />
+    <Compile Include="Data\Design.cs" />
     <Compile Include="Data\Repository.cs" />
+    <Compile Include="Interface\IDesign.cs" />
     <Compile Include="Interface\IRepository.cs" />
     <Compile Include="View\Form1.cs">
       <SubType>Form</SubType>

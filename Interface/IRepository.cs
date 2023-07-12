@@ -7,6 +7,7 @@ namespace HashChecker.Interface
         bool HashCheck(RichTextBox richTextBox4);
         bool FileExists(string path);
         string[] OpenExplorerAndGetFilePath();
+        string LastElementDelete(string HashSums);
         int CountSelectedFiles(string[] selectedFiles);
         string[] GetFileNames(string[] filePaths);
     }
