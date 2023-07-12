@@ -181,7 +181,7 @@ namespace HashChecker
             }
             else
             {
-                MessageBox.Show("Хэш суммы неравны", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Хэш суммы неравны", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             
 

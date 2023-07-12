@@ -48,7 +48,7 @@ namespace HashChecker.Data
             richTextBox4.SelectionBackColor = richTextBox4.BackColor;
 
             // Определяем паттерн регулярного выражения
-            string pattern = "[^A-Za-z0-9]";
+            string pattern = "[^A-Za-z0-9\n]";
 
             // Применяем регулярное выражение к тексту
             MatchCollection matches = Regex.Matches(text, pattern);
