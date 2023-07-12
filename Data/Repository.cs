@@ -1,9 +1,9 @@
 ﻿using HashChecker.Interface;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace HashChecker.Data
 {
@@ -36,6 +36,22 @@ namespace HashChecker.Data
         }
         public int CountSelectedFiles(string[] selectedFiles){
             return selectedFiles.Length;
+        }
+        public string LastElementDelete(string HashSums)
+        {
+            try
+            {
+                while (Regex.IsMatch(HashSums.Substring(HashSums.Length - 1), @"[\s\n]"))
+                {
+                    HashSums = HashSums.Substring(0, HashSums.Length - 1);
+                }                
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                HashSums = "";
+            }
+            
+            return HashSums;
         }
 
         public bool HashCheck(RichTextBox richTextBox4)

@@ -1,18 +1,6 @@
 ﻿using HashChecker.Data;
 using HashChecker.Interface;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Security.Policy;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace HashChecker
@@ -21,6 +9,7 @@ namespace HashChecker
     {
         private ICalculating calculating;
         private IRepository repository;
+        private IDesign design;
         string[] filePaths;
 
         public Form1()
@@ -28,16 +17,20 @@ namespace HashChecker
             InitializeComponent();
             calculating = new Calculating.Calculating();
             repository = new Repository();
+            design = new Design();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            foreach (Control control in this.Controls)
+            {
+                design.ApplyDesignToAllControls(control);
+            }
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -139,6 +132,7 @@ namespace HashChecker
 
         private void button3_Click(object sender, EventArgs e)
         {
+            richTextBox4.Text = repository.LastElementDelete(richTextBox4.Text);
             bool TextCheck = repository.HashCheck(richTextBox4);
             if (TextCheck == true)
             {
@@ -159,6 +153,16 @@ namespace HashChecker
                     try
                     {
                         hashsums = calculating.ComputeHashSumsFiles(filePaths, comboBox2.Text);
+                        
+
+                        if (richTextBox4.Text == hashsums)
+                        {
+                            MessageBox.Show("Хэш суммы равны", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Хэш суммы неравны", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -169,20 +173,14 @@ namespace HashChecker
                 {
                     MessageBox.Show("Выберите тип шифрования", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                
 
             }
             else
             {
                 MessageBox.Show("Файлы не выбраны", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            if (richTextBox4.Text == hashsums)
-            {
-                MessageBox.Show("Хэш суммы равны", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-            }
-            else
-            {
-                MessageBox.Show("Хэш суммы неравны", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+            
             
 
         }
