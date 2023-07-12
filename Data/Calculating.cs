@@ -1,17 +1,17 @@
-﻿using HashChecker.Interface;
+﻿using HashChecker.Data;
+using HashChecker.Interface;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
+using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace HashChecker.Calculating
 {
     internal class Calculating : ICalculating
     {
-        public bool FileExists(string path)
-        {
-            return File.Exists(path);
-        }
-
+        
         public string ComputeMD5Checksum(string path)
         {
             using (FileStream fs = File.OpenRead(path))
@@ -43,6 +43,23 @@ namespace HashChecker.Calculating
                 string result = BitConverter.ToString(checkSum).Replace("-", String.Empty);
                 return result;
             }
+        }
+        public string ComputeHashSumsFiles(string[] FilePaths, string TypeHash){
+            List<string> HashSumsList = new List<string>();
+            for (int i = 0; i < FilePaths.Length; i++)
+            {
+                switch (TypeHash)
+                {
+                    case "MD5":
+                        HashSumsList.Add(ComputeMD5Checksum(FilePaths[i])); break;
+                    case "SHA-1":
+                        HashSumsList.Add(ComputeSHA1Checksum(FilePaths[i])); break;
+                    case "SHA-256":
+                        HashSumsList.Add(ComputeSHA256Checksum(FilePaths[i])); break;
+                }
+            }
+            string HashSums = string.Join("\n", HashSumsList);
+            return HashSums;
         }
     }
 }
