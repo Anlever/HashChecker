@@ -1,52 +1,93 @@
 ﻿using HashChecker.Interface;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace HashChecker.Data
 {
+    public static class ControlExtensionMethods
+    {
+        public static IEnumerable<Control> GetOffsprings(this Control @this)
+        {
+            foreach (Control child in @this.Controls)
+            {
+                yield return child;
+                foreach (var offspring in GetOffsprings(child))
+                    yield return offspring;
+            }
+        }
+    }
+    public static class MenuStripExtensionMethods
+    {
+        public static IEnumerable<ToolStripItem> GetSubItems(this ToolStrip @this)
+        {
+            foreach (ToolStripItem child in @this.Items)
+            {
+                yield return child;
+                foreach (var offspring in child.GetSubItems())
+                    yield return offspring;
+            }
+        }
+
+        public static IEnumerable<ToolStripItem> GetSubItems(this ToolStripItem @this)
+        {
+            if (!(@this is ToolStripDropDownItem))
+                yield break;
+
+            foreach (ToolStripItem child in ((ToolStripDropDownItem)@this).DropDownItems)
+            {
+                yield return child;
+                foreach (var offspring in child.GetSubItems())
+                    yield return offspring;
+            }
+        }
+    }
+
     internal class Design : IDesign
     {
+
         public void ButtonDesign(Button button)
         {
             // Настройки для кнопки
-            button.BackColor = Color.DarkBlue;
-            button.ForeColor = Color.White;
-            button.FlatStyle = FlatStyle.Flat;
-            button.FlatAppearance.BorderSize = 0;
-            button.FlatAppearance.MouseDownBackColor = Color.SteelBlue;
-            button.FlatAppearance.MouseOverBackColor = Color.DodgerBlue;
-            button.Font = new Font("Arial", 12, FontStyle.Bold);
-            button.Size = new Size(150, 50);
+
         }
 
         public void RichTextBoxDesign(RichTextBox richTextBox)
         {
             // Настройки для RichTextBox
-            richTextBox.BackColor = Color.Blue;
-            richTextBox.ForeColor = Color.Red;
-            richTextBox.Font = new Font("Arial", 12);
+
         }
 
         public void LabelDesign(Label label)
         {
             // Настройки для Label
-            label.ForeColor = Color.Red;
-            label.Font = new Font("Arial", 10, FontStyle.Bold);
+
         }
 
         public void ComboBoxDesign(ComboBox comboBox)
         {
             // Настройки для ComboBox
-            comboBox.BackColor = Color.LightGray;
-            comboBox.ForeColor = Color.Black;
-            comboBox.Font = new Font("Arial", 12);
+
         }
+        public void TabPageDesign(TabPage tabpage)
+        {
+            
+        }
+        public void TabControlDesign(TabControl tabcontrol)
+        {
+            
+        }
+
 
         public void ApplyDesignToAllControls(Control container)
         {
+
+
             foreach (Control control in container.Controls)
             {
+
                 if (control is Button button)
                 {
                     ButtonDesign(button);
@@ -63,8 +104,17 @@ namespace HashChecker.Data
                 {
                     ComboBoxDesign(comboBox);
                 }
+                else if (control is TabPage tabPage)
+                {
+                    TabPageDesign(tabPage);
+                }
+                else if (control is TabControl tabcontrol)
+                {
+                    TabControlDesign(tabcontrol);
+                }
             }
         }
+
 
     }
 }

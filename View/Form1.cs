@@ -1,7 +1,11 @@
 ﻿using HashChecker.Data;
 using HashChecker.Interface;
 using System;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.IO;
 using System.Windows.Forms;
+
 
 namespace HashChecker
 {
@@ -22,9 +26,9 @@ namespace HashChecker
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            foreach (Control control in this.Controls)
+            foreach (Control c in this.GetOffsprings())
             {
-                design.ApplyDesignToAllControls(control);
+                design.ApplyDesignToAllControls(c);
             }
         }
 
@@ -194,5 +198,16 @@ namespace HashChecker
         {
 
         }
+
+        private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+
+        }
+        
     }
 }
